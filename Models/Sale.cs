@@ -13,7 +13,7 @@ namespace MarketApi.Models
         [JsonIgnore]
         public SalesPoint SalesPoint { get; set; }
 
-        public int BuyerId { get; set; }
+        public int? BuyerId { get; set; }
         [JsonIgnore]
         public Buyer Buyer { get; set; }
         
