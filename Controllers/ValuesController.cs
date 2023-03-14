@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace MarketApi.Controllers
         [HttpGet]
         public async Task<ActionResult<string>> FillValues()
         {
+            string localDate = DateTime.Now.ToString();
 
             Buyer buyer1 = new Buyer { Name = "Владислав" };
             Buyer buyer2 = new Buyer { Name = "Роман" };
@@ -43,13 +45,18 @@ namespace MarketApi.Controllers
             ProvidedProduct providedProduct8 = new ProvidedProduct { SalesPoint = salesPoint2, Product = product3, ProductQuantity = 25 };
             ProvidedProduct providedProduct9 = new ProvidedProduct { SalesPoint = salesPoint2, Product = product4, ProductQuantity = 25 };
             ProvidedProduct providedProduct10 = new ProvidedProduct { SalesPoint = salesPoint2, Product = product5, ProductQuantity = 25 };
-            Sale sale1 = new Sale { SalesPoint = salesPoint1, Buyer = buyer1, TotalAmount = product1.Price };
-            SaleData saleData1 = new SaleData { Product = product1, Sale = sale1, ProductIdAmount = product1.Price };
-
+            Sale sale1 = new Sale { SalesPoint = salesPoint1, Buyer = buyer1, TotalAmount = product1.Price + product2.Price, Date = localDate.Split()[0], Time = localDate.Split()[1] };
+            SaleData saleData1 = new SaleData { Product = product1, Sale = sale1, ProductIdAmount = product1.Price, ProductQuantity = 1 };
+            SaleData saleData2 = new SaleData { Product = product2, Sale = sale1, ProductIdAmount = product2.Price, ProductQuantity = 1 };
+            Sale sale2 = new Sale { SalesPoint = salesPoint1, Buyer = buyer2, TotalAmount = product3.Price + product4.Price, Date = localDate.Split()[0], Time = localDate.Split()[1] };
+            SaleData saleData3 = new SaleData { Product = product1, Sale = sale2, ProductIdAmount = product3.Price, ProductQuantity = 1 };
+            SaleData saleData4 = new SaleData { Product = product2, Sale = sale2, ProductIdAmount = product4.Price, ProductQuantity = 1 };
 
             // добавляем их в бд
-            _context.ProvidedProducts.AddRange(providedProduct1, providedProduct2, providedProduct3);
-            _context.SalesData.Add(saleData1);
+            _context.Buyers.AddRange(buyer1, buyer2, buyer3, buyer4);
+            _context.ProvidedProducts.AddRange(providedProduct1, providedProduct2, providedProduct3, providedProduct4, providedProduct5);
+            _context.ProvidedProducts.AddRange(providedProduct6, providedProduct7, providedProduct8, providedProduct9, providedProduct10);
+            _context.SalesData.AddRange(saleData1, saleData2, saleData3, saleData4);
 
             await _context.SaveChangesAsync();
 
