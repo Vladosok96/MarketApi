@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MarketApi.Models;
+using Microsoft.OpenApi.Models;
 
 namespace MarketApi
 {
@@ -24,10 +25,10 @@ namespace MarketApi
             services.AddControllers();
             services.AddDbContext<ApplicationContext>(opt => opt.UseNpgsql("Host=localhost;Port=5432;Database=MarketDB;Username=postgres;Password=PostgresTest"));
 
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MarketApi", Version = "v1" });
-            //});
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MarketApi", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,10 +37,10 @@ namespace MarketApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MarketApi v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MarketApi v1"));
 
             app.UseHttpsRedirection();
 
