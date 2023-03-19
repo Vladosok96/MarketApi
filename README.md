@@ -1,7 +1,10 @@
 # MarketApi
 <p>Web-api для взамодействия с базой данных сети магазинов.</p>
 <h2>Запуск сервера</h2>
-<p>Для запуска сервера, нужно в терминале windows открыть папку с проектом и ввести команду <code>dotnet run</code>.
+<p>Данное решение работает с использованием базы данных <b>PostgreSQL</b>. Чтобы подключиться к базе нужно в файле <code>Startup.cs</code> найти строчку:
+<pre>services.AddDbContext<ApplicationContext>(opt => opt.UseNpgsql("Host=localhost;Port=5432;Database=MarketDB;Username=postgres;Password=PostgresTest"));</pre>
+<p>И ввести значения соответствующие <b>вашей</b> базе данных.</p>
+<p>Для запуска сервера, нужно в терминале windows (или PowerShell) открыть папку с проектом и ввести команду <code>dotnet run</code>.
 Убедитесь что на компьютере установлен .NET версии 5.0</p>
 <h2>Инструкция</h2>
 <p><b>Перед началом работы</b> с базой данных нужно провести её первоначальное заполнение. Для этого нужно отправить на сервер пустой <code>GET</code> запрос по адресу <code>api/values</code></p>
